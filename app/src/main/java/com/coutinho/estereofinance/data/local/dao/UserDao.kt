@@ -8,7 +8,7 @@ import com.coutinho.estereofinance.data.entity.User
 interface UserDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(user: User)
+    suspend fun insert(user: User): Long
 
     @Query("SELECT * FROM user WHERE id = :id")
     suspend fun getById(id: Long): User?

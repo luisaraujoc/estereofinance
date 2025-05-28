@@ -11,17 +11,29 @@ interface MovimentDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(moviment: Moviment): Long
 
-    @Query("SELECT * FROM moviments WHERE userid = :userId ORDER BY date DESC")
+    @Query("SELECT * FROM Moviment WHERE userId = :userId ORDER BY date DESC")
     fun getAllByUserId(userId: Long): Flow<List<Moviment>>
 
-    @Query("SELECT * FROM moviments WHERE category = :category AND userid = :userId ORDER BY date DESC")
-    suspend fun getByCategoryAndUserId(category: String, userId: Long): List<Moviment>
+    @Query("SELECT * FROM Moviment WHERE categoryId = :categoryId ORDER BY date DESC")
+    suspend fun getByCategory(categoryId: Long): Flow<List<Moviment>>
 
-    @Query("SELECT SUM(price) FROM moviments WHERE userid = :userId and type = :type")
+    @Query("SELECT SUM(price) FROM Moviment WHERE userId = :userId AND categoryId IN (:categoryIds)")
+    suspend fun getTotalByCategories(
+        userId: Int,
+        categoryIds: List<Int>
+    ): BigDecimal?
+
+    @Query("""
+        SELECT SUM(m.price) 
+        FROM Moviment m
+        INNER JOIN Category c ON m.categoryId = c.id
+        WHERE m.userId = :userId AND c.type = :type
+    """)
     suspend fun getTotalByTypeAndUserId(
-        userId: Long,
-        type: String
-    ): BigDecimal
+        userId: Int,
+        type: String // "income" ou "expense"
+    ): BigDecimal?
+
 
     @Update
     suspend fun update(moviment: Moviment)
