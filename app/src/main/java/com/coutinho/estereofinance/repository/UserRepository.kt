@@ -12,10 +12,9 @@ class UserRepository(private val userDao: UserDao) {
 
     suspend fun getUserByEmail(email: String): User? = userDao.getByEmail(email)
 
-    suspend fun getAllUsers(): Flow<List<User>> = userDao.getAll()
+    fun getAllUsers(): Flow<List<User>> = userDao.getAll()
 
     suspend fun updateUser(user: User) = userDao.update(user)
 
     suspend fun deleteUser(user: User) = userDao.delete(user)
-
 }

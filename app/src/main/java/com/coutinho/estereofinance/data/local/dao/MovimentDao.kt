@@ -15,7 +15,7 @@ interface MovimentDao {
     fun getAllByUserId(userId: Long): Flow<List<Moviment>>
 
     @Query("SELECT * FROM Moviment WHERE categoryId = :categoryId ORDER BY date DESC")
-    suspend fun getByCategory(categoryId: Long): Flow<List<Moviment>>
+    fun getByCategory(categoryId: Long): Flow<List<Moviment>>
 
     @Query("SELECT SUM(price) FROM Moviment WHERE userId = :userId AND categoryId IN (:categoryIds)")
     suspend fun getTotalByCategories(
@@ -33,7 +33,6 @@ interface MovimentDao {
         userId: Int,
         type: String // "income" ou "expense"
     ): BigDecimal?
-
 
     @Update
     suspend fun update(moviment: Moviment)

@@ -11,7 +11,7 @@ interface CategoryDao {
     suspend fun insert(category: Category): Long
 
     @Query("SELECT * FROM Category WHERE userId = :userId")
-    suspend fun getByUser(userId: Long): Flow<List<Category>>
+    fun getByUser(userId: Long): Flow<List<Category>>
 
     @Update
     suspend fun update(category: Category)

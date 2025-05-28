@@ -1,8 +1,8 @@
 package com.coutinho.estereofinance.data.local.dao
 
 import androidx.room.*
-import kotlinx.coroutines.flow.Flow
 import com.coutinho.estereofinance.data.entity.User
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UserDao {
@@ -16,8 +16,8 @@ interface UserDao {
     @Query("SELECT * FROM user WHERE email = :email")
     suspend fun getByEmail(email: String): User?
 
-    @Query ("SELECT * FROM user")
-    suspend fun getAll(): Flow<List<User>>
+    @Query("SELECT * FROM user")
+    fun getAll(): Flow<List<User>>
 
     @Update
     suspend fun update(user: User)

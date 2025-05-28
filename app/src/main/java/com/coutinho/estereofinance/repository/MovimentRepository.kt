@@ -11,7 +11,7 @@ class MovimentRepository(private val movimentDao: MovimentDao) {
 
     fun getMovimentsByUser(userId: Int): Flow<List<Moviment>> = movimentDao.getAllByUserId(userId.toLong())
 
-    suspend fun getMovimentsByCategory(categoryId: Int): Flow<List<Moviment>> = movimentDao.getByCategory(categoryId.toLong())
+    fun getMovimentsByCategory(categoryId: Int): Flow<List<Moviment>> = movimentDao.getByCategory(categoryId.toLong())
 
     suspend fun getTotalByCategories(userId: Int, categoryIds: List<Int>): BigDecimal =
         movimentDao.getTotalByCategories(userId, categoryIds) ?: BigDecimal.ZERO
