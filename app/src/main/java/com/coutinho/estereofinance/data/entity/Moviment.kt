@@ -2,6 +2,7 @@ package com.coutinho.estereofinance.data.entity
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import java.math.BigDecimal
 import java.util.*
@@ -21,6 +22,10 @@ import java.util.*
             childColumns = ["categoryId"],
             onDelete = ForeignKey.CASCADE
         )
+    ],
+    indices = [
+        Index(value = ["userId"]),
+        Index(value = ["categoryId"])
     ]
 )
 class Moviment (

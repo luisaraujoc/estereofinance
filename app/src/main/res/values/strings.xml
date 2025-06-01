@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Estereo Finance</string>
+    <string name="login_title">log in</string>
+    <string name="login_email_label">email or username</string>
+    <string name="login_password_label">password</string>
+    <string name="login_button_text">log in</string>
+    <string name="login_dont_have_account">don\'t have an account?</string>
+    <string name="login_signup">sign up</string>
+    <string name="register_title">sign up</string>
+    <string name="register_name_label">full name</string>
+    <string name="register_email_label">email</string>
+    <string name="register_username_label">username</string>
+    <string name="register_button_text">create account</string>
+    <string name="register_already_have_account">already have an account?</string>
 </resources>
