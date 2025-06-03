@@ -5,10 +5,15 @@
     <string name="login_button_text">entrar</string>
     <string name="login_dont_have_account">não tem uma conta?</string>
     <string name="login_signup">criar</string>
+    <string name="login_success">login bem-sucedido!</string>
+    <string name="login_invalid">e-mail ou senha incorretos!</string>
     <string name="register_title">cadastrar</string>
     <string name="register_name_label">nome completo</string>
     <string name="register_email_label">email</string>
     <string name="register_username_label">nome de usuário</string>
     <string name="register_button_text">criar conta</string>
     <string name="register_already_have_account">já tem uma conta?</string>
+    <string name="register_password_requeriments">a senha não atende os requisitos mínimos!</string>
+    <string name="register_successfully">conta criada com sucesso!</string>
+    <string name="register_failed">falha no cadastro!</string>
 </resources>

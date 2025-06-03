@@ -3,11 +3,9 @@ package com.coutinho.estereofinance.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.coutinho.estereofinance.data.entity.User
+import com.coutinho.estereofinance.data.entity.UserCredentials
 import com.coutinho.estereofinance.repository.UserRepository
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class UserViewModel(private val repository: UserRepository) : ViewModel() {
@@ -16,17 +14,23 @@ class UserViewModel(private val repository: UserRepository) : ViewModel() {
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
 
     private val _currentUser = MutableStateFlow<User?>(null)
-    val currentUser: StateFlow<User?> = _currentUser
+    val currentUser: StateFlow<User?> = _currentUser.asStateFlow()
 
-    fun addUser(user: User) {
+    fun register(user: User, password: String, onSuccess: (Long) -> Unit, onError: (Throwable) -> Unit) {
         viewModelScope.launch {
-            repository.addUser(user)
+            try {
+                val userId = repository.register(user, password)
+                onSuccess(userId)
+            } catch (e: Exception) {
+                onError(e)
+            }
         }
     }
 
-    fun findUserByEmail(email: String) {
+    fun login(email: String, password: String, onResult: (UserCredentials?) -> Unit) {
         viewModelScope.launch {
-            _currentUser.value = repository.getUserByEmail(email)
+            val credentials = repository.login(email, password)
+            onResult (credentials)
         }
     }
 
