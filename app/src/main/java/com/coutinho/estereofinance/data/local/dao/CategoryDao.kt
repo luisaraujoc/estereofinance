@@ -2,20 +2,21 @@ package com.coutinho.estereofinance.data.local.dao
 
 import androidx.room.*
 import com.coutinho.estereofinance.data.entity.Category
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CategoryDao {
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     suspend fun insert(category: Category): Long
-
-    @Query("SELECT * FROM Category WHERE userId = :userId")
-    fun getByUser(userId: Long): Flow<List<Category>>
 
     @Update
     suspend fun update(category: Category)
 
     @Delete
     suspend fun delete(category: Category)
+
+    @Query("SELECT * FROM category WHERE userId = :userId")
+    suspend fun getCategoriesByUser(userId: Long): List<Category>
+
+    @Query("SELECT * FROM category WHERE id = :id AND userId = :userId")
+    suspend fun getCategoryById(id: Long, userId: Long): Category?
 }

@@ -28,13 +28,14 @@ import java.util.*
         Index(value = ["categoryId"])
     ]
 )
-class Moviment (
+class Trasaction (
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val userId: Long,
     val categoryId: Long,
     val title: String,
     val description: String,
     val price: BigDecimal,
+    val type: String, // "income" ou "expense"
     val date: Date = Date(),
 )
 

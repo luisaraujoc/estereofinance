@@ -1,14 +1,30 @@
 package com.coutinho.estereofinance.repository
 
-import com.coutinho.estereofinance.data.local.dao.CategoryDao
 import com.coutinho.estereofinance.data.entity.Category
-import kotlinx.coroutines.flow.Flow
+import com.coutinho.estereofinance.data.local.dao.CategoryDao
+import javax.inject.Inject
 
-class CategoryRepository(private val categoryDao: CategoryDao) {
+class CategoryRepository @Inject constructor(
+    private val categoryDao: CategoryDao
+) : BaseRepository<Category> {
 
-    suspend fun addCategory(category: Category): Long = categoryDao.insert(category)
+    override suspend fun insert(category: Category): Long {
+        return categoryDao.insert(category)
+    }
 
-    fun getCategoriesByUser(userId: Int): Flow<List<Category>> = categoryDao.getByUser(userId.toLong())
+    override suspend fun update(category: Category) {
+        categoryDao.update(category)
+    }
 
-    suspend fun deleteCategory(category: Category) = categoryDao.delete(category)
+    override suspend fun delete(category: Category) {
+        categoryDao.delete(category)
+    }
+
+    suspend fun getCategoriesByUser(userId: Long): List<Category> {
+        return categoryDao.getCategoriesByUser(userId)
+    }
+
+    suspend fun getCategoryById(id: Long, userId: Long): Category? {
+        return categoryDao.getCategoryById(id, userId)
+    }
 }

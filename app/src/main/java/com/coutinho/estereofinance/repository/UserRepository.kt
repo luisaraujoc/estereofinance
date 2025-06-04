@@ -1,35 +1,41 @@
 package com.coutinho.estereofinance.repository
 
 import com.coutinho.estereofinance.data.entity.User
-import com.coutinho.estereofinance.data.entity.UserCredentials
 import com.coutinho.estereofinance.data.local.dao.UserDao
-import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class UserRepository(
+class UserRepository @Inject constructor(
     private val userDao: UserDao
-){
-    suspend fun addUser(user: User): Long = userDao.insert(user)
+) : BaseRepository<User> {
 
-    suspend fun getUserById(userId: Long): User? = userDao.getById(userId)
-
-    suspend fun getUserByEmail(email: String): User? = userDao.getByEmail(email)
-
-    fun getAllUsers(): Flow<List<User>> = userDao.getAll()
-
-    suspend fun updateUser(user: User) = userDao.update(user)
-
-    suspend fun deleteUser(user: User) = userDao.delete(user)
-
-    suspend fun register(user: User, password: String): Long {
-        val userId = userDao.insert(user)
-        val hashed = hashPassword(password)
-        userDao.setPassword(userId, hashed)
-
-        return userId
+    override suspend fun insert(user: User): Long {
+        return userDao.insert(user)
     }
 
-    suspend fun login(email: String, password: String): UserCredentials? {
-        val hashed = hashPassword(password)
-        return userDao.login(email, hashed)
+    override suspend fun update(user: User) {
+        userDao.update(user)
+    }
+
+    override suspend fun delete(user: User) {
+        userDao.delete(user)
+    }
+
+    suspend fun getUserById(id: Long): User? {
+        return userDao.getUserById(id)
+    }
+
+    suspend fun getUserByEmail(email: String): User? {
+        return userDao.getUserByEmail(email)
+    }
+
+    suspend fun createUser(name: String, email: String, password: String): User {
+        val user = User.create(name, email, password)
+        user.id = insert(user)
+        return user
+    }
+
+    suspend fun authenticate(email: String, password: String): User? {
+        val user = getUserByEmail(email)
+        return if (user != null && user.verifyPassword(password)) user else null
     }
 }
